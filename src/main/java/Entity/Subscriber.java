@@ -11,5 +11,5 @@ import lombok.*;
 public class Subscriber extends User{
     private String id ;
     private String name;
-    private char sex;
+    private String sex;
 }
