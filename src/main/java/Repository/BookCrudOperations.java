@@ -59,7 +59,7 @@ public class BookCrudOperations implements CrudOperations<Book> {
     public Book save(Book toSave) {
         try (PreparedStatement statement = connection.prepareStatement
                 ("""
-                        INSERT INTO "Book" VALUES (?, ?, ?, ?, ?, ?, ?);
+                        INSERT INTO "Book" (id,name,pageNumber,releaseDate,idAuthor,topic,status)VALUES (?, ?, ?, ?, ?, ?, ?);
                         """)) {
             statement.setString(1, toSave.getId());
             statement.setString(2, toSave.getName());
