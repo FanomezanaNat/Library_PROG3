@@ -53,7 +53,7 @@ public class AuthorCrudOperations implements CrudOperations<Author> {
     @Override
     public Author save(Author toSave) {
         try (PreparedStatement statement = connection.prepareStatement(""" 
-                INSERT INTO "Author" VALUES ?,?,?;
+                INSERT INTO "Author" (id,name,sex)VALUES ?,?,?;
                 """)) {
             statement.setString(1, toSave.getId());
             statement.setString(2, toSave.getName());
