@@ -19,7 +19,9 @@ public class AuthorCrudOperations implements CrudOperations<Author> {
     @Override
     public List<Author> findAll() {
         List<Author> authors = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM \"Authors\"")) {
+        try (PreparedStatement statement = connection.prepareStatement("""
+                SELECT * FROM "Authors"; 
+                """)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String id = resultSet.getString("id");
@@ -50,7 +52,9 @@ public class AuthorCrudOperations implements CrudOperations<Author> {
 
     @Override
     public Author save(Author toSave) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO \"Author\" VALUES ?,?,?")) {
+        try (PreparedStatement statement = connection.prepareStatement(""" 
+                INSERT INTO "Author" VALUES ?,?,?;
+                """)) {
             statement.setString(1, toSave.getId());
             statement.setString(2, toSave.getName());
             statement.setString(3, toSave.getSex());
@@ -68,7 +72,9 @@ public class AuthorCrudOperations implements CrudOperations<Author> {
 
     @Override
     public Author delete(Author toDelete) {
-        try(PreparedStatement statement= connection.prepareStatement("DELETE from\"Author\" where name ? ")) {
+        try (PreparedStatement statement = connection.prepareStatement("""
+                DELETE from"Author" where name ?; 
+                """)) {
             statement.setString(1, toDelete.getName());
             int rowAffected = statement.executeUpdate();
             if (rowAffected == 1) {
@@ -76,7 +82,8 @@ public class AuthorCrudOperations implements CrudOperations<Author> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } ;
+        }
+        ;
         return null;
     }
 }

@@ -21,7 +21,9 @@ public class BookCrudOperations implements CrudOperations<Book> {
     @Override
     public List<Book> findAll() {
         List<Book> books = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("Select * from \"Books\"")) {
+        try (PreparedStatement statement = connection.prepareStatement("""
+                Select * from "Books";
+                """)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String id = resultSet.getString("id");
@@ -55,10 +57,10 @@ public class BookCrudOperations implements CrudOperations<Book> {
 
     @Override
     public Book save(Book toSave) {
-        try (PreparedStatement statement =
-                     connection.prepareStatement
-                             ("INSERT INTO \"Books\" " +
-                                     "(id, name, pageNumber, releaseDate, idAuthor, topic, status) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+        try (PreparedStatement statement = connection.prepareStatement
+                ("""
+                        INSERT INTO "Book" VALUES (?, ?, ?, ?, ?, ?, ?);
+                        """)) {
             statement.setString(1, toSave.getId());
             statement.setString(2, toSave.getName());
             statement.setInt(3, toSave.getPageNumber());
@@ -80,7 +82,9 @@ public class BookCrudOperations implements CrudOperations<Book> {
 
     @Override
     public Book delete(Book toDelete) {
-        try (PreparedStatement statement = connection.prepareStatement("DELETE from\"Books\" where name ? ")) {
+        try (PreparedStatement statement = connection.prepareStatement("""
+                DELETE from\"Books\" where name ?;
+                """)) {
             statement.setString(1, toDelete.getName());
             int rowAffected = statement.executeUpdate();
             if (rowAffected == 1) {

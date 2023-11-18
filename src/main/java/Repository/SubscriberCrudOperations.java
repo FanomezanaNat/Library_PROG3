@@ -20,7 +20,9 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
     @Override
     public List<Subscriber> findAll() {
         List<Subscriber> subscribers = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM \"Subscriberer\"")) {
+        try (PreparedStatement statement = connection.prepareStatement("""
+            SELECT * FROM "Subscriberer"; 
+            """)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String id = resultSet.getString("id");
@@ -51,7 +53,9 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
 
     @Override
     public Subscriber save(Subscriber toSave) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO \"Subscriber\" VALUES ?,?,?")) {
+        try (PreparedStatement statement = connection.prepareStatement("""
+                INSERT INTO "Subscriber" VALUES ?,?,?;
+                """)) {
             statement.setString(1, toSave.getId());
             statement.setString(2, toSave.getName());
             statement.setString(3, toSave.getSex());
@@ -71,7 +75,9 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
 
     @Override
     public Subscriber delete(Subscriber toDelete) {
-        try (PreparedStatement statement = connection.prepareStatement("DELETE from\"Subscriber\" where name ? ")) {
+        try (PreparedStatement statement = connection.prepareStatement("""
+            DELETE from "Subscriber" where name ?; 
+            """)) {
             statement.setString(1, toDelete.getName());
             int rowAffected = statement.executeUpdate();
             if (rowAffected == 1) {
