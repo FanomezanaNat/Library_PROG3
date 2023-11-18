@@ -1,6 +1,6 @@
-CREATE TABLE "Subscribers"(
-id serial primary key,
-name varchar (175),
+CREATE TABLE IF NOT EXISTS "Subscribers"(
+id int primary key not null,
+name varchar (175) not null,
 sex char(1) 
 );
 
