@@ -54,7 +54,7 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
     @Override
     public Subscriber save(Subscriber toSave) {
         try (PreparedStatement statement = connection.prepareStatement("""
-                INSERT INTO "Subscriber" VALUES ?,?,?;
+                INSERT INTO "Subscriber" (id,name,sex)VALUES ?,?,?;
                 """)) {
             statement.setString(1, toSave.getId());
             statement.setString(2, toSave.getName());
