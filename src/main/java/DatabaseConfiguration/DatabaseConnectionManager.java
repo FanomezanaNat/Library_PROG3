@@ -10,15 +10,28 @@ public class DatabaseConnectionManager {
     private String password;
 
 
+    public DatabaseConnectionManager() {
+        this.url = System.getenv("jdbc_url");
+        this.user = System.getenv("user");
+        this.password = System.getenv("password");
+    }
+
+
     public Connection getConnection() {
-        this.url = System.getenv("jdbc_url") ;
-        this.user = Parameters.USERNAME;
-        this.password = Parameters.PASSWORD;
-        try {
-            return DriverManager.getConnection(this.url, this.user, this.password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+        if (this.url != null && this.user != null && this.password != null) {
+            try {
+                Connection connection = DriverManager.getConnection(this.url, this.user, this.password);
+                if (connection != null && connection.isValid(2)) {
+                    System.out.println("Connected successfully! Welcome, User!");
+                    return connection;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("One or more environment variables are not set.");
         }
+
+        return null;
     }
 }
