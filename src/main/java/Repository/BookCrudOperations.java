@@ -13,11 +13,9 @@ import java.sql.Date;
 
 public class BookCrudOperations implements CrudOperations<Book> {
     private Connection connection;
-    private DatabaseConnectionManager connectionManager;
 
-    public BookCrudOperations(Connection connection, DatabaseConnectionManager connectionManager) {
+    public BookCrudOperations(Connection connection) {
         this.connection = connection;
-        this.connectionManager = connectionManager;
     }
 
     @Override
@@ -45,14 +43,14 @@ public class BookCrudOperations implements CrudOperations<Book> {
 
     @Override
     public List<Book> saveAll(List<Book> toSave) {
-        List<Book> savedBooks = new ArrayList<>();
+        List<Book> Books = new ArrayList<>();
         for (Book book : toSave) {
             Book savedBook = save(book);
             if (savedBook != null) {
-                savedBooks.add(savedBook);
+                Books.add(savedBook);
             }
         }
-        return savedBooks;
+        return Books;
     }
 
     @Override
@@ -70,7 +68,7 @@ public class BookCrudOperations implements CrudOperations<Book> {
             statement.setString(7, toSave.getStatus());
 
             int rowAffected = statement.executeUpdate();
-            if (rowAffected >0) {
+            if (rowAffected > 0) {
                 return toSave;
             }
 
@@ -82,11 +80,16 @@ public class BookCrudOperations implements CrudOperations<Book> {
 
     @Override
     public Book delete(Book toDelete) {
-        try(PreparedStatement statement= connection.prepareStatement("DELETE from\"Books\" where name ? ")) {
-            statement.setString(1, String.valueOf(toDelete));
+        try (PreparedStatement statement = connection.prepareStatement("DELETE from\"Books\" where name ? ")) {
+            statement.setString(1, toDelete.getName());
+            int rowAffected = statement.executeUpdate();
+            if (rowAffected == 1) {
+                return toDelete;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-        } ;
+        }
+        ;
         return null;
     }
 }
