@@ -83,7 +83,7 @@ public class BookCrudOperations implements CrudOperations<Book> {
     @Override
     public Book delete(Book toDelete) {
         try (PreparedStatement statement = connection.prepareStatement("""
-                DELETE from\"Books\" where name ?;
+                DELETE from"Books" where name ?;
                 """)) {
             statement.setString(1, toDelete.getName());
             int rowAffected = statement.executeUpdate();
