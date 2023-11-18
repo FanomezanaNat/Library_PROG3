@@ -18,7 +18,7 @@ public class Book {
     private Topic topic;
     private String status;
 
-    enum Topic{
+    public enum Topic{
         Comedy,
         Romance,
         Other

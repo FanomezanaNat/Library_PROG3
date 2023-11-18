@@ -1,2 +1,2 @@
-CREATE TYPE  "Topic" AS ENUM ('Comedy', 'Romance', 'Other');
+CREATE TYPE  Topic AS ENUM ('Comedy', 'Romance', 'Other');
 

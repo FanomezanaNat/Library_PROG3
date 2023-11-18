@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS"Books" (
     pageNumber int,
     releaseDate timestamp default now(),
     idAuthor int references "author"(id),
-    topic "Topic",
+    topic Topic,
     status varchar(75)
 );
