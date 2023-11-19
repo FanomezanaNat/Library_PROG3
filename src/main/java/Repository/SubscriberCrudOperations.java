@@ -21,7 +21,7 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
     public List<Subscriber> findAll() {
         List<Subscriber> subscribers = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement("""
-                SELECT * FROM "Subscriberer"; 
+                SELECT * FROM "Subscribers"; 
                 """)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
