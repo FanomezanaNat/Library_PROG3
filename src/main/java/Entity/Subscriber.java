@@ -9,7 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Subscriber extends User{
-    private String id ;
-    private String name;
-    private String sex;
+    public Subscriber(String id, String name, String sex) {
+        super(id, name, sex);
+    }
+
 }
