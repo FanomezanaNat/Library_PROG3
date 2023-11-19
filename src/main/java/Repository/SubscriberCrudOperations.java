@@ -21,14 +21,14 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
     public List<Subscriber> findAll() {
         List<Subscriber> subscribers = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement("""
-            SELECT * FROM "Subscriberer"; 
-            """)) {
+                SELECT * FROM "Subscriberer"; 
+                """)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String id = resultSet.getString("id");
                 String name = resultSet.getString("name");
                 String sex = resultSet.getString("sex");
-                Subscriber subscriber = new Subscriber(id,name,sex);
+                Subscriber subscriber = new Subscriber(id, name, sex);
                 subscribers.add(subscriber);
             }
 
@@ -77,8 +77,8 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
     @Override
     public Subscriber delete(Subscriber toDelete) {
         try (PreparedStatement statement = connection.prepareStatement("""
-            DELETE from "Subscriber" where name ?; 
-            """)) {
+                DELETE from "Subscriber" where name ?; 
+                """)) {
             statement.setString(1, toDelete.getName());
             int rowAffected = statement.executeUpdate();
             if (rowAffected == 1) {
