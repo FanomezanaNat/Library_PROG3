@@ -28,7 +28,7 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
                 String id = resultSet.getString("id");
                 String name = resultSet.getString("name");
                 String sex = resultSet.getString("sex");
-                Subscriber subscriber = new Subscriber(id, name, sex);
+                Subscriber subscriber = new Subscriber(id,name,sex);
                 subscribers.add(subscriber);
             }
 
@@ -53,6 +53,7 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
 
     @Override
     public Subscriber save(Subscriber toSave) {
+
         try (PreparedStatement statement = connection.prepareStatement("""
                 INSERT INTO "Subscriber" (id,name,sex)VALUES ?,?,?;
                 """)) {
