@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Subscriber extends User{
-    public Subscriber(String id, String name, String sex) {
+    public Subscriber(int id, String name, String sex) {
         super(id, name, sex);
     }
     public String toString() {
