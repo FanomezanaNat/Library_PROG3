@@ -20,9 +20,7 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
     @Override
     public List<Subscriber> findAll() {
         List<Subscriber> subscribers = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("""
-                SELECT * FROM "Subscribers"; 
-                """)) {
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM \"Subscribers\";")) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -54,9 +52,7 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
     @Override
     public Subscriber save(Subscriber toSave) {
 
-        try (PreparedStatement statement = connection.prepareStatement("""
-                INSERT INTO "Subscribers" (id,name,sex)VALUES (?,?,?);
-                """)) {
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO \"Subscribers\" (id,name,sex)VALUES (?,?,?);")) {
             statement.setInt(1, toSave.getId());
             statement.setString(2, toSave.getName());
             statement.setString(3, toSave.getSex());
@@ -76,9 +72,7 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
 
     @Override
     public Subscriber delete(Subscriber toDelete) {
-        try (PreparedStatement statement = connection.prepareStatement("""
-                DELETE  from "Subscribers" where name ILIKE '%' ||?|| '%';
-                """)) {
+        try (PreparedStatement statement = connection.prepareStatement("DELETE  from \"Subscribers\" where name ILIKE '%' ||?|| '%';")) {
             statement.setString(1, toDelete.getName());
             int rowAffected = statement.executeUpdate();
             if (rowAffected == 1) {
