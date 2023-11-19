@@ -59,7 +59,7 @@ public class Main {
                     System.out.println(author.toString());
                 }
                 // Creating a new author
-                Author author = new Author(5, "RAKOTO", "M");
+                Author author = new Author(6, "RAKOTO", "M");
                 Author createdAuthor = authorCrudOperations.save(author);
                 if (createdAuthor != null) {
                     System.out.println("New author created: " + createdAuthor);
@@ -69,7 +69,7 @@ public class Main {
 
                 // Deleting an existing author
                 Author authorToDelete = new Author();
-                authorToDelete.setName(null); // Set the name of the subscriber to delete
+                authorToDelete.setName("RAKOTO"); // Set the name of the subscriber to delete
                 Author deletedAuthor = authorCrudOperations.delete(authorToDelete);
                 if (deletedAuthor != null) {
                     System.out.println("author deleted: " + deletedAuthor);
@@ -93,7 +93,7 @@ public class Main {
                     System.out.println(book.toString());
                 }
                 // Creating a new book
-                Book Book = new Book("001", "Sample Book", 200, new Date(System.currentTimeMillis()), 5, Entity.Book.Topic.Other, "Available");
+                Book Book = new Book("001", "Sample Book", 200, new Date(System.currentTimeMillis()), 1, Entity.Book.Topic.Other, "Available");
                 Book createdBook = bookCrudOperations.save(Book);
                 if (createdBook != null) {
                     System.out.println("New book created: " + createdBook);
