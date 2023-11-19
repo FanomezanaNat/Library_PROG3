@@ -20,11 +20,11 @@ public class AuthorCrudOperations implements CrudOperations<Author> {
     public List<Author> findAll() {
         List<Author> authors = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement("""
-                SELECT * FROM "Authors"; 
+                SELECT * FROM "Author"; 
                 """)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                String id = resultSet.getString("id");
+                int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String sex = resultSet.getString("sex");
                 Author author = new Author(id, name, sex);
@@ -53,9 +53,9 @@ public class AuthorCrudOperations implements CrudOperations<Author> {
     @Override
     public Author save(Author toSave) {
         try (PreparedStatement statement = connection.prepareStatement(""" 
-                INSERT INTO "Author" (id,name,sex)VALUES ?,?,?;
+                INSERT INTO "Author" (id,name,sex)VALUES (?,?,?);
                 """)) {
-            statement.setString(1, toSave.getId());
+            statement.setInt(1, toSave.getId());
             statement.setString(2, toSave.getName());
             statement.setString(3, toSave.getSex());
 
@@ -73,7 +73,7 @@ public class AuthorCrudOperations implements CrudOperations<Author> {
     @Override
     public Author delete(Author toDelete) {
         try (PreparedStatement statement = connection.prepareStatement("""
-                DELETE from"Author" where name ?; 
+                DELETE from"Author" where name ILIKE '%'||?||'%'; 
                 """)) {
             statement.setString(1, toDelete.getName());
             int rowAffected = statement.executeUpdate();

@@ -3,13 +3,9 @@ package Repository;
 import DatabaseConfiguration.DatabaseConnectionManager;
 import Entity.Book;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Date;
 
 public class BookCrudOperations implements CrudOperations<Book> {
     private Connection connection;
@@ -31,9 +27,9 @@ public class BookCrudOperations implements CrudOperations<Book> {
                 int pageNumber = resultSet.getInt("pageNumber");
                 Date releaseDate = resultSet.getDate("releaseDate");
                 int idAuthor = resultSet.getInt("idAuthor");
-                Book.Topic topicValue = (Book.Topic) resultSet.getObject("topic");
+                Book.Topic topicValue = Book.Topic.valueOf(resultSet.getString("topic"));
                 String status = resultSet.getString("status");
-                Book book = new Book(id, name, pageNumber, releaseDate, idAuthor, topicValue, status);
+                Book book = new Book(id, name, pageNumber, releaseDate, idAuthor,topicValue, status);
                 books.add(book);
             }
         } catch (SQLException e) {
@@ -59,14 +55,14 @@ public class BookCrudOperations implements CrudOperations<Book> {
     public Book save(Book toSave) {
         try (PreparedStatement statement = connection.prepareStatement
                 ("""
-                        INSERT INTO "Book" (id,name,pageNumber,releaseDate,idAuthor,topic,status)VALUES (?, ?, ?, ?, ?, ?, ?);
+                        INSERT INTO "Books" (id,name,pageNumber,releaseDate,idAuthor,topic,status)VALUES (?, ?, ?, ?, ?, ?, ?);
                         """)) {
             statement.setString(1, toSave.getId());
             statement.setString(2, toSave.getName());
             statement.setInt(3, toSave.getPageNumber());
             statement.setDate(4, new java.sql.Date(toSave.getReleaseDate().getTime()));
             statement.setInt(5, toSave.getIdAuthor());
-            statement.setString(6, toSave.getTopic().toString());
+            statement.setObject(6, toSave.getTopic(), Types.OTHER);
             statement.setString(7, toSave.getStatus());
 
             int rowAffected = statement.executeUpdate();
@@ -83,7 +79,7 @@ public class BookCrudOperations implements CrudOperations<Book> {
     @Override
     public Book delete(Book toDelete) {
         try (PreparedStatement statement = connection.prepareStatement("""
-                DELETE from"Books" where name ?;
+                DELETE from"Books" where name ILIKE '%' ||?|| '%';
                 """)) {
             statement.setString(1, toDelete.getName());
             int rowAffected = statement.executeUpdate();

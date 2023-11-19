@@ -25,7 +25,7 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
                 """)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                String id = resultSet.getString("id");
+                int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String sex = resultSet.getString("sex");
                 Subscriber subscriber = new Subscriber(id, name, sex);
@@ -55,9 +55,9 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
     public Subscriber save(Subscriber toSave) {
 
         try (PreparedStatement statement = connection.prepareStatement("""
-                INSERT INTO "Subscriber" (id,name,sex)VALUES ?,?,?;
+                INSERT INTO "Subscribers" (id,name,sex)VALUES (?,?,?);
                 """)) {
-            statement.setString(1, toSave.getId());
+            statement.setInt(1, toSave.getId());
             statement.setString(2, toSave.getName());
             statement.setString(3, toSave.getSex());
 
@@ -77,7 +77,7 @@ public class SubscriberCrudOperations implements CrudOperations<Subscriber> {
     @Override
     public Subscriber delete(Subscriber toDelete) {
         try (PreparedStatement statement = connection.prepareStatement("""
-                DELETE from "Subscriber" where name ?; 
+                DELETE  from "Subscribers" where name ILIKE '%' ||?|| '%';
                 """)) {
             statement.setString(1, toDelete.getName());
             int rowAffected = statement.executeUpdate();
